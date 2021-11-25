@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Button, Table, TableHead, TableBody, TableRow, TableCell, Container } from '@mui/material'
+import { Button, Table, TableHead, TableBody, TableRow, TableCell, Container, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 
 // @ts-ignore
@@ -170,6 +170,10 @@ function App() {
           Redeem Payment
         </Button>
       </Box>
+
+      <Typography variant="h6" sx={{ marginTop: '20px', color: 'red' }}>
+        Open developer console to see output
+      </Typography>
     </Container>
   )
 }
