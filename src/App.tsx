@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Button, Table, TableHead, TableBody, TableRow, TableCell, Container, Typography } from '@mui/material'
+import { Button, Table, TableHead, TableBody, TableRow, TableCell, Container } from '@mui/material'
 import { Box } from '@mui/system'
-
+import { DidApi, environments, SignUpForm, SignInForm, RecoveryForm, IAppData } from '@zippie/did-api'
+import Dialog from '@mui/material/Dialog'
 // @ts-ignore
 import { Wallet } from '@zippie/nft-wallet'
-
-function App() {
+const WalletComponent = ({ masterseed, userDetails }: { masterseed: string; userDetails: any }) => {
   const [walletLoaded, setWalletLoaded] = useState(false)
 
   let accounts: any, balance: any, transactions: any, paymentReceipt: any, paymentData: any
@@ -15,7 +15,7 @@ function App() {
       ;(async () => {
         const options = {
           environment: 'testing', // Zippie environment
-          masterseed: 'Zippie', // Masterseed for account
+          masterseed, // Masterseed for account
         }
         await Wallet.ERC721.init(options)
         setWalletLoaded(true)
@@ -101,12 +101,22 @@ function App() {
       <Table sx={{ maxWidth: 650, border: 0.2 }}>
         <TableHead>
           <TableRow>
+            <TableCell>User</TableCell>
+            <TableCell>Email</TableCell>
+
             <TableCell>Name</TableCell>
             <TableCell align="right">Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           <TableRow key="wallet" sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell component="th" scope="row">
+              {userDetails.firstName}
+            </TableCell>
+            <TableCell component="th" scope="row">
+              {userDetails.email}
+            </TableCell>
+
             <TableCell component="th" scope="row">
               Wallet
             </TableCell>
@@ -170,11 +180,118 @@ function App() {
           Redeem Payment
         </Button>
       </Box>
-
-      <Typography variant="h6" sx={{ marginTop: '20px', color: 'red' }}>
-        Open developer console to see output
-      </Typography>
     </Container>
+  )
+}
+
+enum viewNames {
+  signIn = 'signIn',
+  signUp = 'signUp',
+  recovery = 'recovery',
+}
+
+const CredentialsComponent = ({ setDidData, platform }: any) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [viewName, setViewName] = useState<viewNames>()
+  const onUserLoggedIn = (response: IAppData) => {
+    setDidData(response)
+    localStorage.setItem('didData', JSON.stringify(response))
+  }
+
+  const handleDialogOpenClick = (viewName: viewNames) => {
+    setViewName(viewName)
+    setIsDialogOpen(true)
+  }
+
+  const handleDialogCloseClick = () => {
+    setIsDialogOpen(false)
+  }
+
+  const onForgotPasswordClick = () => {
+    setViewName(viewNames.recovery)
+  }
+  const renderComponent = () => {
+    switch (viewName) {
+      case viewNames.signUp: {
+        if (!platform) {
+          return null
+        }
+        return (
+          <SignUpForm
+            onLoginButtonClick={() => setViewName(viewNames.signIn)}
+            platform={platform}
+            onSignUpComplete={onUserLoggedIn}
+            onForgotPasswordClick={onForgotPasswordClick}
+          />
+        )
+      }
+
+      case viewNames.signIn:
+        return (
+          <SignInForm
+            platform={platform}
+            onSignInComplete={onUserLoggedIn}
+            onForgotPasswordClick={onForgotPasswordClick}
+            onSignUpClick={() => setViewName(viewNames.signUp)}
+          />
+        )
+
+      case viewNames.recovery:
+        return <RecoveryForm platform={platform} onRecoveryComplete={onUserLoggedIn} />
+
+      default:
+        return <></>
+    }
+  }
+  return platform ? (
+    <>
+      <Box>
+        <Button variant="contained" color="primary" onClick={() => handleDialogOpenClick(viewNames.signUp)}>
+          Sign up
+        </Button>
+
+        <Button variant="contained" color="primary" onClick={() => handleDialogOpenClick(viewNames.signIn)}>
+          Sign In
+        </Button>
+      </Box>
+      <Dialog onClose={handleDialogCloseClick} open={isDialogOpen} maxWidth={'xl'}>
+        <Box width="600px" height="700px" display="flex" justifyItems="center" p={3} pt={5} bgcolor="white">
+          {renderComponent()}
+        </Box>
+      </Dialog>
+    </>
+  ) : null
+}
+function App() {
+  const [didData, setDidData] = useState<IAppData>()
+  const [platform, setPlatform] = useState<DidApi>()
+
+  const onStart = async () => {
+    const savedDid = localStorage.getItem('didData')
+    if (savedDid) {
+      setDidData(JSON.parse(savedDid))
+      return
+    }
+
+    const p = new DidApi({
+      iframeRoot: document.body,
+      env: environments.prod,
+    })
+    await p.setup()
+    setPlatform(p)
+  }
+  useEffect(() => {
+    onStart()
+  }, [])
+
+  return (
+    <>
+      {didData ? (
+        <WalletComponent masterseed={didData.privateKey} userDetails={didData.userDetails} />
+      ) : (
+        <CredentialsComponent setDidData={setDidData} platform={platform} />
+      )}
+    </>
   )
 }
 
