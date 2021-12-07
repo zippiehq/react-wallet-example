@@ -192,7 +192,7 @@ enum viewNames {
 
 const CredentialsComponent = ({ setDidData, platform }: any) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [viewName, setViewName] = useState<viewNames>()
+  const [viewName, setViewName] = useState<viewNames>(viewNames.signUp)
   const onUserLoggedIn = (response: IAppData) => {
     setDidData(response)
     localStorage.setItem('didData', JSON.stringify(response))
@@ -254,7 +254,12 @@ const CredentialsComponent = ({ setDidData, platform }: any) => {
           Sign In
         </Button>
       </Box>
-      <Dialog onClose={handleDialogCloseClick} open={isDialogOpen} maxWidth={'xl'}>
+      <Dialog
+        onClose={handleDialogCloseClick}
+        open={true}
+        maxWidth={'xl'}
+        style={{ display: isDialogOpen ? 'block' : 'none' }}
+      >
         <Box width="600px" height="700px" display="flex" justifyItems="center" p={3} pt={5} bgcolor="white">
           {renderComponent()}
         </Box>
@@ -275,7 +280,8 @@ function App() {
 
     const p = new DidApi({
       iframeRoot: document.body,
-      env: environments.prod,
+      env: environments.dev,
+      client: 'Lohko',
     })
     await p.setup()
     setPlatform(p)
