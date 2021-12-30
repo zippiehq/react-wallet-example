@@ -5,6 +5,8 @@ import { DidApi, environments, SignUpForm, SignInForm, RecoveryForm, IAppData } 
 import Dialog from '@mui/material/Dialog'
 // @ts-ignore
 import { Wallet } from '@zippie/nft-wallet'
+import { theme } from './theme'
+
 const WalletComponent = ({ masterseed, userDetails }: { masterseed: string; userDetails: any }) => {
   const [walletLoaded, setWalletLoaded] = useState(false)
 
@@ -222,6 +224,7 @@ const CredentialsComponent = ({ setDidData, platform }: any) => {
             platform={platform}
             onSignUpComplete={onUserLoggedIn}
             onForgotPasswordClick={onForgotPasswordClick}
+            theme={theme}
           />
         )
       }
@@ -233,11 +236,12 @@ const CredentialsComponent = ({ setDidData, platform }: any) => {
             onSignInComplete={onUserLoggedIn}
             onForgotPasswordClick={onForgotPasswordClick}
             onSignUpClick={() => setViewName(viewNames.signUp)}
+            theme={theme}
           />
         )
 
       case viewNames.recovery:
-        return <RecoveryForm platform={platform} onRecoveryComplete={onUserLoggedIn} />
+        return <RecoveryForm platform={platform} onRecoveryComplete={onUserLoggedIn} theme={theme} />
 
       default:
         return <></>
