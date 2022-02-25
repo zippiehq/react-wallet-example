@@ -2762,10 +2762,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zippie/did-api@^0.1.12":
-  version "0.1.12"
-  resolved "https://registry.yarnpkg.com/@zippie/did-api/-/did-api-0.1.12.tgz#205ebb988e4b96615d11e3f98ea5163db726329c"
-  integrity sha512-NDCHug1oJr55NHxmqV2L6LeaHelqK9jUYpKZ7pzrzlDIenHODasG8lWwLRDEUzyv0Hjr8qQtrRAabTi3HSi0fA==
+"@zippie/did-api@^0.1.15":
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/@zippie/did-api/-/did-api-0.1.15.tgz#a153b8ce8ad4122a921c1a92ce6f5db004c112e0"
+  integrity sha512-tdnBWdvChBDjIrqFedxMxRmZF7X3FLXGECKuZyAbcH/il0JXQRfwq5fGIWvro/3P5Zzdn21yBwHeOHAZXfUuAA==
   dependencies:
     "@material-ui/core" "^4.12.2"
     classnames "^2.3.1"
