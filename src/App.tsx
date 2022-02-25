@@ -9,6 +9,7 @@ import { theme } from './theme'
 
 const WalletComponent = ({ masterseed, userDetails }: { masterseed: string; userDetails: any }) => {
   const [walletLoaded, setWalletLoaded] = useState(false)
+  const [walletAccountAddress, setWalletAccountAddress] = useState('')
 
   let accounts: any, balance: any, transactions: any, paymentReceipt: any, paymentData: any
 
@@ -20,10 +21,24 @@ const WalletComponent = ({ masterseed, userDetails }: { masterseed: string; user
           masterseed, // Masterseed for account
         }
         await Wallet.ERC721.init(options)
+        const accountAddress = await getAccountAddress()
+        setWalletAccountAddress(accountAddress)
         setWalletLoaded(true)
       })()
     }
   }, [walletLoaded])
+
+  const getAccountAddress = async (): Promise<string> => {
+    try {
+      const options = {}
+      const accountAddress = await Wallet.ERC721.getAccountAddress(options)
+      console.log('getAccountAddress', accountAddress)
+      return accountAddress
+    } catch (err) {
+      console.error(err)
+      return ''
+    }
+  }
 
   const getAccounts = async () => {
     try {
@@ -107,7 +122,8 @@ const WalletComponent = ({ masterseed, userDetails }: { masterseed: string; user
             <TableCell>Email</TableCell>
 
             <TableCell>Name</TableCell>
-            <TableCell align="right">Status</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Address</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -122,7 +138,8 @@ const WalletComponent = ({ masterseed, userDetails }: { masterseed: string; user
             <TableCell component="th" scope="row">
               Wallet
             </TableCell>
-            <TableCell align="right">{walletLoaded ? 'Loaded' : 'Not Loaded'}</TableCell>
+            <TableCell>{walletLoaded ? 'Loaded' : 'Not Loaded'}</TableCell>
+            <TableCell>{walletAccountAddress}</TableCell>
           </TableRow>
         </TableBody>
       </Table>
