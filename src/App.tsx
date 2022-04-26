@@ -52,7 +52,7 @@ const WalletComponent = ({ masterseed, userDetails }: { masterseed: string; user
   const getAccountBalance = async () => {
     try {
       const options = {
-        accountId: accounts[2].accountId, // Select account
+        accountId: accounts[0].accountId, // Select account
       }
       balance = await Wallet.ERC721.getAccountBalance(options)
       console.log('getAccountBalance', balance)
@@ -64,7 +64,7 @@ const WalletComponent = ({ masterseed, userDetails }: { masterseed: string; user
   const getAccountTransactions = async () => {
     try {
       const options = {
-        accountId: accounts[2].accountId, // Select account
+        accountId: accounts[0].accountId, // Select account
       }
       transactions = await Wallet.ERC721.getAccountTransactions(options)
       console.log('getAccountTransactions', transactions)
@@ -76,7 +76,7 @@ const WalletComponent = ({ masterseed, userDetails }: { masterseed: string; user
   const createPayment = async () => {
     try {
       const options = {
-        accountId: accounts[2].accountId, // Select account
+        accountId: accounts[0].accountId, // Select account
         tokenId: balance.items[0].id, // First item
         message: 'test',
         metadata: { test: true },

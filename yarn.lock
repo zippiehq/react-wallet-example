@@ -2774,10 +2774,10 @@
     react-iframe "^1.8.0"
     windtalk "^1.1.1"
 
-"@zippie/nft-wallet@^0.1.8":
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/@zippie/nft-wallet/-/nft-wallet-0.1.8.tgz#450b0173313ee2ae5694096e02014801857b5f27"
-  integrity sha512-359PrvbqjI5Iv4o1n5+83OnrPuWSiaE0DmWPWB2oI+3C4g+AsFPv7QfzUIclItIbdOOswZ/WPPaiMP/kwh5fpg==
+"@zippie/nft-wallet@^0.1.9":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@zippie/nft-wallet/-/nft-wallet-0.1.9.tgz#755e469473e391731d917e69b88b5aa8012fbad3"
+  integrity sha512-GAjAoa60OGPzwjKNiMOxOxHTul99V7l6l9d6i5YxXulKFKJkRHn5NIE+kGd9s0TBMHvdqnWsztPYeQNDdSLgcg==
   dependencies:
     "@zippie/zippie-utils" "^1.0.5"
     "@zippie/zippie-web3-utils" "^0.0.45"
