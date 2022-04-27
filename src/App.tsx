@@ -17,8 +17,8 @@ const WalletComponent = ({ masterseed, userDetails }: { masterseed: string; user
     if (!walletLoaded) {
       ;(async () => {
         const options = {
-          environment: 'testing', // Zippie environment
-          masterseed, // Masterseed for account
+          environment: 'local', // Zippie environment
+          masterseed: 'patrik', // Masterseed for account
         }
         await Wallet.ERC721.init(options)
         const accountAddress = await getAccountAddress()
